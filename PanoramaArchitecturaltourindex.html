@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>360° Architectural Tour</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/pannellum/2.5.6/pannellum.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pannellum/2.5.6/pannellum.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            overflow: hidden;
+            background: #000;
+        }
+
+        #panorama {
+            width: 100vw;
+            height: 100vh;
+        }
+
+        /* Logo */
+        .logo-container {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .logo-img {
+            height: 50px;
+            width: auto;
+            display: block;
+        }
+
+        /* Annotations Panel */
+        .annotations {
+            position: absolute;
+            bottom: 80px;
+            left: 20px;
+            max-width: 350px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+        }
+
+        .annotations h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 12px;
+            border-bottom: 2px solid #003314;
+            padding-bottom: 8px;
+        }
+
+        .annotation-item {
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .annotation-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .annotation-bullet {
+            color: #003314;
+            font-weight: bold;
+            margin-right: 6px;
+        }
+
+        /* Scene Navigation */
+        .scene-nav {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px 20px;
+            border-radius: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .scene-btn {
+            padding: 10px 20px;
+            background: #f8f9fa;
+            border: 2px solid #e0e0e0;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: #555;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .scene-btn:hover {
+            background: #e8f4f8;
+            border-color: #003314;
+            color: #003314;
+        }
+
+        .scene-btn.active {
+            background: #003314;
+            border-color: #003314;
+            color: white;
+        }
+
+        /* Instructions overlay for first-time users */
+        .instructions {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.85);
+            color: white;
+            padding: 30px 40px;
+            border-radius: 12px;
+            z-index: 2000;
+            text-align: center;
+            max-width: 400px;
+        }
+
+        .instructions h2 {
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+
+        .instructions p {
+            margin-bottom: 10px;
+            line-height: 1.6;
+            font-size: 15px;
+        }
+
+        .instructions button {
+            margin-top: 20px;
+            padding: 12px 30px;
+            background: #003314;
+            border: none;
+            border-radius: 25px;
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .instructions button:hover {
+            background: #004d1f;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+            .logo-container {
+                top: 15px;
+                left: 15px;
+                padding: 12px 16px;
+            }
+
+            .logo-text {
+                font-size: 16px;
+            }
+
+            .annotations {
+                bottom: 90px;
+                left: 15px;
+                right: 15px;
+                max-width: none;
+                padding: 15px;
+            }
+
+            .annotations h3 {
+                font-size: 14px;
+            }
+
+            .annotation-item {
+                font-size: 13px;
+            }
+
+            .scene-nav {
+                bottom: 15px;
+                padding: 12px 15px;
+                gap: 8px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .scene-btn {
+                padding: 8px 16px;
+                font-size: 13px;
+            }
+
+            .instructions {
+                padding: 25px 30px;
+                max-width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Logo -->
+    <div class="logo-container">
+        <img src="logo.png" alt="The Shereen and Laura Company" class="logo-img">
+    </div>
+
+    <!-- Panorama Container -->
+    <div id="panorama"></div>
+
+    <!-- Annotations -->
+    <div class="annotations" id="annotations">
+        <h3 id="scene-title">Entrance</h3>
+        <div id="annotation-content">
+            <div class="annotation-item">
+                <span class="annotation-bullet">•</span>
+                Natural light floods through the glazed entrance
+            </div>
+            <div class="annotation-item">
+                <span class="annotation-bullet">•</span>
+                Double-height ceiling creates sense of arrival
+            </div>
+            <div class="annotation-item">
+                <span class="annotation-bullet">•</span>
+                Material palette: concrete, timber, glass
+            </div>
+        </div>
+    </div>
+
+    <!-- Scene Navigation -->
+    <div class="scene-nav">
+        <button class="scene-btn active" onclick="loadScene('entrance')">Entrance</button>
+        <button class="scene-btn" onclick="loadScene('spa')">Spa</button>
+        <button class="scene-btn" onclick="loadScene('rooms')">Rooms</button>
+    </div>
+
+    <!-- Instructions Overlay -->
+    <div class="instructions" id="instructions">
+        <h2>Welcome to the Tour</h2>
+        <p>📱 On mobile: Move your phone to look around</p>
+        <p>🖱️ On desktop: Click and drag to explore</p>
+        <p>👆 Tap buttons below to switch views</p>
+        <button onclick="closeInstructions()">Start Exploring</button>
+    </div>
+
+    <script>
+        // Scene configuration with annotations
+        const scenes = {
+            entrance: {
+                title: "Entrance",
+                image: "https://via.placeholder.com/4096x2048/34495e/ffffff?text=Replace+with+your+entrance+panorama",
+                annotations: [
+                    "Natural light floods through the glazed entrance",
+                    "Double-height ceiling creates sense of arrival",
+                    "Material palette: concrete, timber, glass"
+                ]
+            },
+            spa: {
+                title: "Spa",
+                image: "https://via.placeholder.com/4096x2048/2c3e50/ffffff?text=Replace+with+your+spa+panorama",
+                annotations: [
+                    "Open-plan layout connects indoor and outdoor",
+                    "Floor-to-ceiling windows maximize views",
+                    "Built-in seating integrated with architecture"
+                ]
+            },
+            rooms: {
+                title: "Rooms",
+                image: "https://via.placeholder.com/4096x2048/1a252f/ffffff?text=Replace+with+your+rooms+panorama",
+                annotations: [
+                    "Seamless integration with landscape",
+                    "Overhanging roof provides shade and shelter",
+                    "Native planting softens the built form"
+                ]
+            }
+        };
+
+        let viewer;
+        let currentScene = 'entrance';
+
+        // Initialize viewer
+        function initViewer() {
+            viewer = pannellum.viewer('panorama', {
+                type: "equirectangular",
+                panorama: scenes[currentScene].image,
+                autoLoad: true,
+                showControls: false,
+                compass: false,
+                orientationOnByDefault: true, // Enable gyroscope on mobile
+                draggable: true,
+                mouseZoom: true,
+                doubleClickZoom: false,
+                friction: 0.15,
+                hfov: 100,
+                pitch: 0,
+                yaw: 0
+            });
+        }
+
+        // Load a different scene
+        function loadScene(sceneId) {
+            currentScene = sceneId;
+            
+            // Update active button
+            document.querySelectorAll('.scene-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Update panorama
+            viewer.loadScene(scenes[sceneId].image);
+
+            // Update annotations
+            updateAnnotations(sceneId);
+        }
+
+        // Update annotations panel
+        function updateAnnotations(sceneId) {
+            const scene = scenes[sceneId];
+            document.getElementById('scene-title').textContent = scene.title;
+            
+            const annotationContent = document.getElementById('annotation-content');
+            annotationContent.innerHTML = scene.annotations.map(text => 
+                `<div class="annotation-item">
+                    <span class="annotation-bullet">•</span>${text}
+                </div>`
+            ).join('');
+        }
+
+        // Close instructions overlay
+        function closeInstructions() {
+            document.getElementById('instructions').classList.add('hidden');
+        }
+
+        // Initialize on page load
+        window.addEventListener('load', () => {
+            initViewer();
+            
+            // Auto-hide instructions after 5 seconds
+            setTimeout(() => {
+                closeInstructions();
+            }, 5000);
+        });
+    </script>
+</body>
+</html>
