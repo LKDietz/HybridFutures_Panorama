@@ -324,8 +324,26 @@
             });
             event.target.classList.add('active');
 
-            // Update panorama - THIS IS THE FIX!
-            viewer.setPanorama(scenes[sceneId].image);
+            // Destroy existing viewer and create new one with new panorama
+            if (viewer) {
+                viewer.destroy();
+            }
+            
+            viewer = pannellum.viewer('panorama', {
+                type: "equirectangular",
+                panorama: scenes[sceneId].image,
+                autoLoad: true,
+                showControls: false,
+                compass: false,
+                orientationOnByDefault: true,
+                draggable: true,
+                mouseZoom: true,
+                doubleClickZoom: false,
+                friction: 0.15,
+                hfov: 100,
+                pitch: 0,
+                yaw: 0
+            });
 
             // Update annotations
             updateAnnotations(sceneId);
