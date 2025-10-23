@@ -176,8 +176,8 @@
                 padding: 12px 16px;
             }
 
-            .logo-text {
-                font-size: 16px;
+            .logo-img {
+                height: 40px;
             }
 
             .annotations {
@@ -283,7 +283,7 @@
             },
             rooms: {
                 title: "Rooms",
-                image: "https://github.com/LKDietz/HybridFutures_Panorama/blob/main/rooms.png",
+                image: "rooms.png",
                 annotations: [
                     "Seamless integration with landscape",
                     "Overhanging roof provides shade and shelter",
@@ -324,8 +324,8 @@
             });
             event.target.classList.add('active');
 
-            // Update panorama
-            viewer.loadScene(scenes[sceneId].image);
+            // Update panorama - THIS IS THE FIX!
+            viewer.setPanorama(scenes[sceneId].image);
 
             // Update annotations
             updateAnnotations(sceneId);
