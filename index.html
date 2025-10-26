@@ -24,16 +24,127 @@
             height: 100vh;
         }
 
-        /* Logo */
+        /* Welcome Page */
+        .welcome-page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 3000;
+            display: flex;
+            flex-direction: column;
+            background-size: cover;
+            background-position: center;
+            background-image: url('welcome-bg.png'); /* Replace with your background image */
+        }
+
+        .welcome-page::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: -1;
+        }
+
+        .welcome-logo {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px 25px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            z-index: 1;
+        }
+
+        .welcome-logo img {
+            height: 60px;
+            width: auto;
+            display: block;
+        }
+
+        .welcome-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .welcome-title {
+            font-size: 36px;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 60px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .welcome-instructions {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            max-width: 900px;
+            width: 100%;
+            margin-bottom: 60px;
+        }
+
+        .instruction-item {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .instruction-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .instruction-text {
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .start-tour-btn {
+            padding: 18px 50px;
+            background: #003314;
+            border: none;
+            border-radius: 30px;
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(0, 51, 20, 0.4);
+        }
+
+        .start-tour-btn:hover {
+            background: #004d1f;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(0, 51, 20, 0.6);
+        }
+
+        /* Logo Container - Darker Background */
         .logo-container {
             position: absolute;
             top: 20px;
             left: 20px;
             z-index: 1000;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(0, 0, 0, 0.75);
             padding: 15px 20px;
             border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
         }
 
         .logo-img {
@@ -42,32 +153,85 @@
             display: block;
         }
 
-        /* Annotations Panel */
+        /* Annotations Panel - Collapsible */
         .annotations {
             position: absolute;
             bottom: 80px;
             left: 20px;
             max-width: 350px;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 20px;
-            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(15px);
+            padding: 15px 20px;
+            border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .annotations.minimized {
+            padding: 12px 16px;
+        }
+
+        .annotations.minimized .annotation-content {
+            display: none;
+        }
+
+        .annotation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .annotations.minimized .annotation-header {
+            margin-bottom: 0;
         }
 
         .annotations h3 {
             font-size: 16px;
             font-weight: 600;
-            color: #2c3e50;
-            margin-bottom: 12px;
+            color: #1a1a1a;
             border-bottom: 2px solid #003314;
             padding-bottom: 8px;
+            margin: 0;
+            flex: 1;
+        }
+
+        .annotations.minimized h3 {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .toggle-btn {
+            background: #003314;
+            color: white;
+            border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            margin-left: 10px;
+            flex-shrink: 0;
+        }
+
+        .toggle-btn:hover {
+            background: #004d1f;
+            transform: scale(1.1);
+        }
+
+        .annotation-content {
+            display: block;
         }
 
         .annotation-item {
             margin-bottom: 10px;
             font-size: 14px;
-            color: #555;
+            color: #1a1a1a;
             line-height: 1.5;
         }
 
@@ -81,7 +245,7 @@
             margin-right: 6px;
         }
 
-        /* Scene Navigation */
+        /* Scene Navigation - Glass Effect */
         .scene-nav {
             position: absolute;
             bottom: 20px;
@@ -90,78 +254,41 @@
             display: flex;
             gap: 12px;
             z-index: 1000;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 15px 20px;
-            border-radius: 30px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px);
+            padding: 12px 18px;
+            border-radius: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
         .scene-btn {
             padding: 10px 20px;
-            background: #f8f9fa;
-            border: 2px solid #e0e0e0;
-            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 18px;
             cursor: pointer;
             font-size: 14px;
             font-weight: 500;
-            color: #555;
+            color: #1a1a1a;
             transition: all 0.3s ease;
             white-space: nowrap;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         .scene-btn:hover {
-            background: #e8f4f8;
-            border-color: #003314;
-            color: #003314;
+            background: rgba(255, 255, 255, 0.35);
+            border-color: rgba(0, 51, 20, 0.5);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
         .scene-btn.active {
-            background: #003314;
+            background: rgba(0, 51, 20, 0.85);
             border-color: #003314;
             color: white;
-        }
-
-        /* Instructions overlay for first-time users */
-        .instructions {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(0, 0, 0, 0.85);
-            color: white;
-            padding: 30px 40px;
-            border-radius: 12px;
-            z-index: 2000;
-            text-align: center;
-            max-width: 400px;
-        }
-
-        .instructions h2 {
-            margin-bottom: 15px;
-            font-size: 22px;
-        }
-
-        .instructions p {
-            margin-bottom: 10px;
-            line-height: 1.6;
-            font-size: 15px;
-        }
-
-        .instructions button {
-            margin-top: 20px;
-            padding: 12px 30px;
-            background: #003314;
-            border: none;
-            border-radius: 25px;
-            color: white;
-            font-size: 16px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .instructions button:hover {
-            background: #004d1f;
+            box-shadow: 0 4px 16px rgba(0, 51, 20, 0.3);
         }
 
         .hidden {
@@ -170,6 +297,43 @@
 
         /* Mobile optimizations */
         @media (max-width: 768px) {
+            .welcome-logo {
+                top: 20px;
+                left: 20px;
+                padding: 15px 20px;
+            }
+
+            .welcome-logo img {
+                height: 45px;
+            }
+
+            .welcome-title {
+                font-size: 28px;
+                margin-bottom: 40px;
+            }
+
+            .welcome-instructions {
+                gap: 25px;
+                padding: 0 20px;
+            }
+
+            .instruction-item {
+                padding: 25px 20px;
+            }
+
+            .instruction-icon {
+                font-size: 32px;
+            }
+
+            .instruction-text {
+                font-size: 16px;
+            }
+
+            .start-tour-btn {
+                padding: 15px 40px;
+                font-size: 16px;
+            }
+
             .logo-container {
                 top: 15px;
                 left: 15px;
@@ -181,11 +345,11 @@
             }
 
             .annotations {
-                bottom: 90px;
+                bottom: 70px;
                 left: 15px;
                 right: 15px;
                 max-width: none;
-                padding: 15px;
+                padding: 12px 16px;
             }
 
             .annotations h3 {
@@ -198,25 +362,50 @@
 
             .scene-nav {
                 bottom: 15px;
-                padding: 12px 15px;
+                padding: 10px 15px;
                 gap: 8px;
-                flex-wrap: wrap;
-                justify-content: center;
+                max-width: calc(100% - 30px);
             }
 
             .scene-btn {
-                padding: 8px 16px;
+                padding: 10px 18px;
                 font-size: 13px;
-            }
-
-            .instructions {
-                padding: 25px 30px;
-                max-width: 90%;
+                flex: 1;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Welcome Page -->
+    <div class="welcome-page" id="welcomePage">
+        <div class="welcome-logo">
+            <img src="logo.png" alt="The Shereen and Laura Company">
+        </div>
+        
+        <div class="welcome-content">
+            <h1 class="welcome-title">Welcome to the Tour</h1>
+            
+            <div class="welcome-instructions">
+                <div class="instruction-item">
+                    <div class="instruction-icon">📱</div>
+                    <div class="instruction-text">On mobile: Move your phone to look around</div>
+                </div>
+                
+                <div class="instruction-item">
+                    <div class="instruction-icon">🖱️</div>
+                    <div class="instruction-text">On desktop: Click and drag to explore</div>
+                </div>
+                
+                <div class="instruction-item">
+                    <div class="instruction-icon">👆</div>
+                    <div class="instruction-text">Tap buttons below to switch views</div>
+                </div>
+            </div>
+            
+            <button class="start-tour-btn" onclick="startTour()">Start Exploring</button>
+        </div>
+    </div>
+
     <!-- Logo -->
     <div class="logo-container">
         <img src="logo.png" alt="The Shereen and Laura Company" class="logo-img">
@@ -227,8 +416,11 @@
 
     <!-- Annotations -->
     <div class="annotations" id="annotations">
-        <h3 id="scene-title">Entrance</h3>
-        <div id="annotation-content">
+        <div class="annotation-header">
+            <h3 id="scene-title">Entrance</h3>
+            <button class="toggle-btn" id="toggleBtn" onclick="toggleAnnotations()">−</button>
+        </div>
+        <div class="annotation-content" id="annotation-content">
             <div class="annotation-item">
                 <span class="annotation-bullet">•</span>
                 Natural light floods through the glazed entrance
@@ -251,15 +443,6 @@
         <button class="scene-btn" onclick="loadScene('rooms')">Rooms</button>
     </div>
 
-    <!-- Instructions Overlay -->
-    <div class="instructions" id="instructions">
-        <h2>Welcome to the Tour</h2>
-        <p>📱 On mobile: Move your phone to look around</p>
-        <p>🖱️ On desktop: Click and drag to explore</p>
-        <p>👆 Tap buttons below to switch views</p>
-        <button onclick="closeInstructions()">Start Exploring</button>
-    </div>
-
     <script>
         // Scene configuration with annotations
         const scenes = {
@@ -274,11 +457,11 @@
             },
             spa: {
                 title: "Spa",
-                image: "https://via.placeholder.com/4096x2048/2c3e50/ffffff?text=Replace+with+your+spa+panorama",
+                image: "entrance.png",
                 annotations: [
-                    "Open-plan layout connects indoor and outdoor",
-                    "Floor-to-ceiling windows maximize views",
-                    "Built-in seating integrated with architecture"
+                    "Spa panorama coming soon",
+                    "This is a placeholder view",
+                    "Will be replaced with actual spa render"
                 ]
             },
             rooms: {
@@ -295,6 +478,12 @@
         let viewer;
         let currentScene = 'entrance';
 
+        // Start tour - hide welcome page
+        function startTour() {
+            document.getElementById('welcomePage').classList.add('hidden');
+            initViewer();
+        }
+
         // Initialize viewer
         function initViewer() {
             viewer = pannellum.viewer('panorama', {
@@ -303,7 +492,7 @@
                 autoLoad: true,
                 showControls: false,
                 compass: false,
-                orientationOnByDefault: true, // Enable gyroscope on mobile
+                orientationOnByDefault: true,
                 draggable: true,
                 mouseZoom: true,
                 doubleClickZoom: false,
@@ -312,6 +501,20 @@
                 pitch: 0,
                 yaw: 0
             });
+        }
+
+        // Toggle annotations panel
+        function toggleAnnotations() {
+            const annotations = document.getElementById('annotations');
+            const toggleBtn = document.getElementById('toggleBtn');
+            
+            if (annotations.classList.contains('minimized')) {
+                annotations.classList.remove('minimized');
+                toggleBtn.textContent = '−';
+            } else {
+                annotations.classList.add('minimized');
+                toggleBtn.textContent = '+';
+            }
         }
 
         // Load a different scene
@@ -361,21 +564,6 @@
                 </div>`
             ).join('');
         }
-
-        // Close instructions overlay
-        function closeInstructions() {
-            document.getElementById('instructions').classList.add('hidden');
-        }
-
-        // Initialize on page load
-        window.addEventListener('load', () => {
-            initViewer();
-            
-            // Auto-hide instructions after 5 seconds
-            setTimeout(() => {
-                closeInstructions();
-            }, 5000);
-        });
     </script>
 </body>
 </html>
