@@ -36,7 +36,7 @@
             flex-direction: column;
             background-size: cover;
             background-position: center;
-            background-image: url('welcome-bg.png'); /* Replace with your background image */
+            background-image: url('welcome-bg.png');
         }
 
         .welcome-page::before {
@@ -88,50 +88,63 @@
         }
 
         .welcome-instructions {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            max-width: 900px;
+            max-width: 700px;
             width: 100%;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
         }
 
-        .instruction-item {
+        .instruction-box {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(20px);
-            padding: 20px;
+            padding: 30px;
             border-radius: 16px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             color: white;
+            text-align: left;
         }
 
-        .instruction-icon {
-            font-size: 32px;
-            margin-bottom: 10px;
+        .instruction-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
         }
 
-        .instruction-text {
+        .instruction-list li {
             font-size: 16px;
-            line-height: 1.4;
+            line-height: 1.8;
+            margin-bottom: 12px;
+            padding-left: 35px;
+            position: relative;
+        }
+
+        .instruction-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .instruction-list li::before {
+            content: attr(data-icon);
+            position: absolute;
+            left: 0;
+            font-size: 20px;
         }
 
         .start-tour-btn {
-            padding: 18px 50px;
+            padding: 22px 60px;
             background: #003314;
             border: none;
-            border-radius: 30px;
+            border-radius: 35px;
             color: white;
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
-            box-shadow: 0 4px 20px rgba(0, 51, 20, 0.4);
+            box-shadow: 0 6px 25px rgba(0, 51, 20, 0.5);
         }
 
         .start-tour-btn:hover {
             background: #004d1f;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(0, 51, 20, 0.6);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0, 51, 20, 0.7);
         }
 
         /* Logo Container - Darker Background */
@@ -348,27 +361,27 @@
             }
 
             .welcome-instructions {
-                gap: 15px;
-                padding: 0;
+                margin-bottom: 30px;
             }
 
-            .instruction-item {
-                padding: 15px;
+            .instruction-box {
+                padding: 20px;
             }
 
-            .instruction-icon {
-                font-size: 28px;
-                margin-bottom: 8px;
-            }
-
-            .instruction-text {
+            .instruction-list li {
                 font-size: 14px;
-                line-height: 1.3;
+                line-height: 1.6;
+                margin-bottom: 10px;
+                padding-left: 30px;
+            }
+
+            .instruction-list li::before {
+                font-size: 18px;
             }
 
             .start-tour-btn {
-                padding: 14px 35px;
-                font-size: 15px;
+                padding: 18px 45px;
+                font-size: 18px;
                 margin-bottom: 20px;
             }
 
@@ -436,19 +449,12 @@
             <h1 class="welcome-title">Welcome to the Tour</h1>
             
             <div class="welcome-instructions">
-                <div class="instruction-item">
-                    <div class="instruction-icon">📱</div>
-                    <div class="instruction-text">On mobile: Move your phone to look around</div>
-                </div>
-                
-                <div class="instruction-item">
-                    <div class="instruction-icon">🖱️</div>
-                    <div class="instruction-text">On desktop: Click and drag to explore</div>
-                </div>
-                
-                <div class="instruction-item">
-                    <div class="instruction-icon">👆</div>
-                    <div class="instruction-text">Tap buttons below to switch views</div>
+                <div class="instruction-box">
+                    <ul class="instruction-list">
+                        <li data-icon="📱">On mobile: Move your phone to look around</li>
+                        <li data-icon="🖱️">On desktop: Click and drag to explore</li>
+                        <li data-icon="👆">Tap buttons below to switch views</li>
+                    </ul>
                 </div>
             </div>
             
@@ -516,9 +522,9 @@
                 image: "spa.png",
                 audio: "spa-audio.mp3",
                 annotations: [
-                    "Spa panorama coming soon",
-                    "This is a placeholder view",
-                    "Will be replaced with actual spa render"
+                    "Grounded design and connected to nature through an auditory experience",
+                    "Warm rammed earth walls enclosing the space",
+                    "A play with light create organic shadows that mimic the shadows created by crown canopies"
                 ]
             },
             rooms: {
